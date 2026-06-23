@@ -1,0 +1,105 @@
+Few requirements to run it successfully to know all test codes are running correctly:
+
+1. Python Version:
+
+   * Tested with Python 3.8+ (you are using Python 3.12).
+
+2. Required Packages:
+
+   * `numpy` — for array operations.
+   * `scikit-learn` (`sklearn`) — specifically `TfidfVectorizer` for the TF-IDF weighted method.
+   * `pathlib` — for handling file paths (part of standard library).
+
+3. GloVe Embeddings:
+
+   * Local file `glove.6B.100d.txt` must exist in the folder `utils/glove.6B/`.
+   * `<unk>` token is automatically added if missing, but the file must be in plain text format.
+
+
+4. Project Structure and Testing
+
+ Directory Organization
+- All source code files and their corresponding test files are located inside the `utils/` directory.
+- The original directory structure has been maintained to preserve correct module imports and dependencies.
+- Test files are named with the prefix `test_` and are placed alongside the code files they test. For example:
+  - `utils/semantic_vector.py` and `utils/test_semantic_vector.py`
+  - `utils/tfidf.py` and `utils/test_tfidf.py`
+- The GloVe embeddings folder `glove.6B` is also located within `utils/` for local loading.
+
+ Running Tests
+- It is recommended to run tests from the root project directory (`ir-ass1-startcode`) to ensure Python can correctly resolve module imports.
+- You can run tests individually or collectively using a test runner like `pytest` or by running the test scripts directly:
+
+ Overview
+
+This project contains Python utilities and modules related to text processing, semantic vector generation, TF-IDF weighting, and n-gram handling. It includes implementations for loading GloVe embeddings, semantic vector aggregation, and related testing scripts to verify correctness.
+
+
+* All source code and their corresponding test files reside in the `utils/` folder.
+* Test files are prefixed with `test_` and located alongside the module they test.
+* GloVe word embeddings are stored locally in `utils/glove.6B/` for quick loading.
+
+---
+
+## Setup Instructions
+
+1. Create a virtual environment
+
+   * Open a terminal (PowerShell on Windows):
+   ```
+   python -m venv venv
+   ```
+
+2. Activate the virtual environment
+
+   * On Windows PowerShell (you may need to enable script running temporarily):
+     ```
+     .\venv\Scripts\Activate.ps1
+     ```
+   * On Windows Command Prompt:
+     ```cmd
+     .\venv\Scripts\activate.bat
+     ```
+   * On macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+
+3. Install dependencies
+   ```
+   pip install -r requirements.txt
+   ```
+
+## Running Tests
+
+To verify your setup and code correctness, run the automated tests with `pytest`:
+
+```
+pytest utils/
+```
+
+You should see output like:
+
+```
+collected 7 items
+utils\test_ngram.py ..
+utils\test_positions.py .
+utils\test_semantic_vector.py ..
+utils\test_text_preprocessing.py .
+utils\test_tfidf.py .
+7 passed in XX seconds
+```
+
+This indicates all tests passed successfully.
+
+---
+
+## Notes
+
+* Always run tests from the root directory `ir-ass1-startcode` to ensure imports work correctly.
+* Keep the directory structure intact to avoid import errors.
+* The `<unk>` token embedding is included to handle out-of-vocabulary words during vector computations.
+---
+
+
+
