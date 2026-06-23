@@ -1,0 +1,61 @@
+"""Light-weight GloVe loader & semantic aggregation (Task A-4)."""
+
+import pathlib
+import numpy as np
+from typing import Dict
+
+def load_glove_local(path: str) -> Dict[str, np.ndarray]:
+    """
+    Load GloVe embeddings from a local text file.
+    
+    Parameters:
+        path (str): Path to the GloVe text file. Each line should contain a word
+                    followed by its embedding vector values.
+    
+    Returns:
+        Dict[str, np.ndarray]: A dictionary mapping words to their embedding vectors.
+    """
+    
+    word_vec = {}  # Dictionary to store word-to-vector mappings
+
+    # Open the GloVe file in read mode with UTF-8 encoding
+    with open(path, "r", encoding="utf8") as f:
+        for line in f:
+            # Split each line into word and vector components
+            parts = line.strip().split()
+            word = parts[0]  # The first element is the word
+            vector = np.array(parts[1:], dtype=np.float32)  # Convert remaining parts to float32 array
+            word_vec[word] = vector  # Store in dictionary
+
+    # Add a deterministic random vector for unknown words (<unk>) if not present
+    if "<unk>" not in word_vec:
+        rng = np.random.default_rng(seed=42)  # Seed ensures reproducibility
+        dim = len(next(iter(word_vec.values())))  # Determine embedding dimension
+        word_vec["<unk>"] = rng.normal(0.0, 0.05, size=dim)  # Small random values for <unk>
+
+    return word_vec  # Return the complete word-to-vector dictionary
+
+# -------------------------------------------------
+# Load GloVe from local file only
+# -------------------------------------------------
+
+# Define the expected local path for the GloVe file
+local_glove_path = pathlib.Path(__file__).parent / "glove.6B" / "glove.6B.100d.txt"
+
+# Raise an error if the file is not found at the specified location
+if not local_glove_path.exists():
+    raise FileNotFoundError(f"Please place glove.6B.100d.txt at {local_glove_path}")
+
+# Load the GloVe embeddings into a global variable for use in semantic_vector
+_WORD_VEC: Dict[str, np.ndarray] = load_glove_local(str(local_glove_path))
+
+### Summary
+
+"""
+This code provides a lightweight loader for GloVe word embeddings, specifically designed to load a 100-dimensional GloVe file from a local path. It defines a function 
+`load_glove_local` that reads the GloVe text file line by line, converting each word and its corresponding vector into a dictionary mapping words to NumPy arrays. To 
+handle out-of-vocabulary words, it adds a deterministic random vector for the `<unk>` token if it is not already present, ensuring consistent results across runs. The 
+script sets a predefined local path for the GloVe file and raises an error if the file is missing, guiding the user to place the file in the expected location. Finally, 
+it loads the embeddings into a global variable `_WORD_VEC`, making them readily available for use in functions like `semantic_vector` for document-level vector aggregation.
+
+"""
