@@ -1,2 +1,1 @@
-# first-aid-rag-assistance
-RAG-based first aid Q&amp;A assistant using FAISS vector search and Sentence-Transformers, with safety-guarded prompting
+End-to-end IR system — TF-IDF/embedding utilities (Part A) plus a full search engine with BM25 ranking, query parsing, and MAP evaluation (Part B)
